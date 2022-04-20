@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "ES2020",
+    "target": "ES2020",
+    "resolveJsonModule": false,
+    "moduleResolution": "Node",
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "declarationMap": true,
+    "skipLibCheck": true,
+    "removeComments": true,
+    "sourceMap": true,
+    "outDir": "lib",
+    "rootDir": "src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": ["./src/**/*"]
+}
