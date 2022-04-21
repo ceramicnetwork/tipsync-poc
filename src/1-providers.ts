@@ -1,7 +1,6 @@
 import { create as createIpfsHttpClient } from "ipfs-http-client";
 import { StreamID } from "@ceramicnetwork/streamid";
 import { createNode } from "./util/create-node.js";
-import { streamIdToCid } from "./util/stream-id-to-cid.js";
 import { fetchStreamProviders, provideStream } from "./util/provide-stream.js";
 
 const STREAM_ID = StreamID.fromString(
@@ -9,19 +8,18 @@ const STREAM_ID = StreamID.fromString(
 );
 
 async function main() {
-  const streamidAsCid = await streamIdToCid(STREAM_ID);
-
   const ipfs = await createIpfsHttpClient({ url: "http://localhost:5001" });
-  const node = await createNode(ipfs);
+  const nodeA = await createNode(ipfs);
 
-  console.log("node", node.peerId.toString());
-  console.log("cid", streamidAsCid);
+  console.log("node:", nodeA.peerId.toString());
 
-  await provideStream(node, ipfs, STREAM_ID);
+  await provideStream(nodeA, ipfs, STREAM_ID);
 
   const nextProviders = await fetchStreamProviders(ipfs, STREAM_ID);
   console.log(`=== providers: `);
   console.log(nextProviders);
+  await ipfs.stop();
+  await nodeA.stop();
 }
 
 main();
