@@ -18,6 +18,7 @@ specifiers:
   ipfs-core-types: ^0.10.2
   ipfs-http-client: ^56.0.2
   it-all: ^1.0.6
+  it-map: ^1.0.6
   libp2p: next
   mocha: ^9.2.2
   multiaddr: ^10.0.1
@@ -43,7 +44,8 @@ dependencies:
   delay: 5.0.0
   ipfs-http-client: 56.0.2_node-fetch@3.2.3
   it-all: 1.0.6
-  libp2p: 0.36.2-1473044_e91dc159bddbd7de88db848294fd8f09
+  it-map: 1.0.6
+  libp2p: 0.36.2-5397137_e91dc159bddbd7de88db848294fd8f09
   multiaddr: 10.0.1_node-fetch@3.2.3
   multiformats: 9.6.4
   node-fetch: 3.2.3
@@ -1878,8 +1880,8 @@ packages:
       randombytes: 2.1.0
     dev: false
 
-  /libp2p/0.36.2-1473044_e91dc159bddbd7de88db848294fd8f09:
-    resolution: {integrity: sha512-YaeARZF8om9LHkxpB1t65S7GpbvP7PHaDgwvcZPZcMA23/EZ1Ipu9Sk1lke3mQ8yzMfQrd7H7nWVOhuyF3DQMA==}
+  /libp2p/0.36.2-5397137_e91dc159bddbd7de88db848294fd8f09:
+    resolution: {integrity: sha512-9i8yZ8KcInYQeZeeUfqfoPxuazQWG6KDie/mlVTizYwGqvYXDxO5QXdsqQGQNiIVx7n6NyJlOOMlDmk8beuE4w==}
     engines: {node: '>=16.0.0', npm: '>=7.0.0'}
     dependencies:
       '@achingbrain/nat-port-mapper': 1.0.1
@@ -1892,6 +1894,7 @@ packages:
       '@libp2p/peer-id-factory': 1.0.9_undici@5.0.0
       '@libp2p/peer-record': 1.0.8_e91dc159bddbd7de88db848294fd8f09
       '@libp2p/peer-store': 1.0.10_e91dc159bddbd7de88db848294fd8f09
+      '@libp2p/tracked-map': 1.0.5_undici@5.0.0
       '@libp2p/utils': 1.0.10_e91dc159bddbd7de88db848294fd8f09
       '@multiformats/mafmt': 11.0.2_undici@5.0.0
       '@multiformats/multiaddr': 10.1.8_undici@5.0.0
@@ -1915,6 +1918,7 @@ packages:
       it-length-prefixed: 7.0.1
       it-map: 1.0.6
       it-merge: 1.0.4
+      it-pair: 2.0.2
       it-pipe: 2.0.3
       it-sort: 1.0.1
       it-stream-types: 1.0.4
