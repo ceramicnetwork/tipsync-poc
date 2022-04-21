@@ -97,7 +97,6 @@ async function findProviders(ipfs: IPFS, cid: CID): Promise<PeerData[]> {
   const stream = await ipfs.dht.findProvs(cid);
 
   for await (const event of stream) {
-    console.log("event.0", event);
     if (event.type === 4) {
       event.providers.forEach(provider => {
         providers.push({
@@ -120,6 +119,7 @@ async function main() {
   const ipfsPeerId = await ipfs.id();
   const node = await createNode(clientAddresses);
 
+  console.log('node', node.peerId.toString())
   console.log("cid", streamidAsCid);
 
   // Connect to IPFS node
@@ -128,41 +128,6 @@ async function main() {
     await node.peerStore.addressBook.add(peerIdFromString(ipfsPeerId.id), [m]);
     await node.dial(m);
   }
-
-  // console.log(`=== initial providers`);
-  // const initialProviders = await findProviders(ipfs, streamidAsCid);
-  // console.log(`Initial providers: `);
-  // console.log(initialProviders);
-
-  // FIND CLOSEST PEER
-  // console.log("=== find closest peers", new Date());
-  // const closest = await findClosestPeers(ipfs, streamidAsCid);
-  // // console.log("closest", closest);
-  // console.log("=== find closest peers done", new Date());
-
-  // console.log("=== adding to address book", new Date());
-  // await Promise.all(closest.map(async peer => {
-  //   const mf = peer.multiaddrs.map((m) =>
-  //       new MFMultiaddr(m.bytes).encapsulate(`/ipfs/${peer.id.toString()}`)
-  //   );
-  //   await node.peerStore.addressBook.set(peer.id, mf);
-  // }))
-  // console.log("=== adding to address book done", new Date());
-  //
-  // console.log("=== dialing", new Date());
-  // let counter = 0;
-  // await Promise.all(
-  //   closest.map(async (peer) => {
-  //     try {
-  //       await node.dial(peer.id);
-  //       counter = counter + 1;
-  //       console.log(`d.0 ${counter}/${closest.length}`);
-  //     } catch (e) {
-  //       // Do Nothing
-  //     }
-  //   })
-  // );
-  // console.log("=== dialing done", new Date());
 
   const peers = await findClosestPeers(ipfs, streamidAsCid);
   let count = 0;
@@ -188,38 +153,6 @@ async function main() {
   );
   console.log("===== done peers");
 
-  // console.log("=== add the closest peers", new Date());
-  // for (let peer of closest) {
-  //   const mf = peer.multiaddrs.map((m) => new MFMultiaddr(m.bytes));
-  //   await node.peerStore.addressBook.set(peer.id, mf);
-  //   // await Promise.all(peer.multiaddrs.map(async (m) => {
-  //   //   const m2 = m.encapsulate(`/ipfs/${peer.id.toString()}`);
-  //   //   try {
-  //   //     await ipfs.swarm.connect(m2);
-  //   //   } catch (e) {
-  //   //     console.log(e);
-  //   //   }
-  //   // }))
-  // }
-  // let counter = 0
-  // await Promise.all(closest.map(async (peer) => {
-  //   try {
-  //     await node.dial(peer.id)
-  //     counter = counter + 1
-  //     console.log(`=== dial ${counter} / ${closest.length}`)
-  //   } catch (e) {
-  //     console.log(`=== can not dial to ${peer.id}`)
-  //   }
-  // }))
-  //
-  // await node.dht.refreshRoutingTable()
-  // console.log("=== add the closest peers done", new Date());
-  //
-  // // const peers = await node.peerStore.all();
-  // // console.log("peers", peers);
-  //
-  // console.log(`=== provide`);
-  // await new Promise((resolve) => setTimeout(resolve, 5000));
   console.log(`=== provide.2`);
   await node.contentRouting.provide(streamidAsCid);
   console.log(`=== provide done`);
@@ -228,14 +161,6 @@ async function main() {
   const nextProviders = await findProviders(ipfs, streamidAsCid);
   console.log(`=== next providers: `);
   console.log(nextProviders);
-  //
-  // // console.log(
-  // //   `= closest peers ======================================================`
-  // // );
-  // // const closestPeers = await findClosestPeers(client, streamidAsCid);
-  // //
-  // // console.log(`Closest peers: `);
-  // // console.log(closestPeers.map((peerid) => peerid.toB58String()));
 }
 
 main();
