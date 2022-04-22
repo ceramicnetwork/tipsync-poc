@@ -4,7 +4,6 @@ import { WebSockets } from "@libp2p/websockets";
 import { WebRTCStar } from "@libp2p/webrtc-star";
 import { Mplex } from "@libp2p/mplex";
 import { Noise } from "@chainsafe/libp2p-noise";
-import { Gossipsub } from "@achingbrain/libp2p-gossipsub";
 import { KadDHT } from "@libp2p/kad-dht";
 import { asMfMultiaddr } from "./as-mf-multiaddr.js";
 import { peerIdFromString } from "@libp2p/peer-id";
@@ -18,7 +17,6 @@ export async function createNode(ipfs: IPFS): Promise<Libp2p> {
     transports: [new TCP(), new WebSockets(), new WebRTCStar()],
     streamMuxers: [new Mplex()],
     connectionEncryption: [new Noise()],
-    pubsub: new Gossipsub(),
     dht: new KadDHT({
       clientMode: false,
     }),
