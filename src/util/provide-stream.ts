@@ -15,7 +15,7 @@ export interface PeerData {
   multiaddrs: Multiaddr[];
 }
 
-async function connectPeers(
+export async function connectPeers(
   node: Libp2p,
   peersStream: AsyncIterable<PeerData>
 ) {
@@ -32,7 +32,7 @@ async function connectPeers(
   }
 }
 
-async function* closestPeers(ipfs: IPFS, cid: CID): AsyncIterable<PeerData> {
+export async function* closestPeers(ipfs: IPFS, cid: CID): AsyncIterable<PeerData> {
   for await (let event of ipfs.dht.query(cid)) {
     if (event.type === EventTypes.FINAL_PEER) {
       yield {

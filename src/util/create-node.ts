@@ -35,3 +35,29 @@ export async function createNode(ipfs: IPFS): Promise<Libp2p> {
 
   return node;
 }
+
+export async function createNodeA(ipfs: IPFS): Promise<[Libp2p, KadDHT]> {
+  const dht = new KadDHT({ clientMode: false });
+  const node = await createLibp2p({
+    addresses: {
+      listen: ["/ip4/0.0.0.0/tcp/0"],
+    },
+    transports: [new TCP(), new WebSockets(), new WebRTCStar()],
+    streamMuxers: [new Mplex()],
+    connectionEncryption: [new Noise()],
+    dht: dht,
+  });
+  await node.start();
+
+  const ipfsAddresses = await ipfs.swarm.localAddrs();
+  const ipfsPeerId = await ipfs.id();
+
+  // Connect to IPFS node
+  for (let address of ipfsAddresses) {
+    const m = asMfMultiaddr(address).encapsulate(`/ipfs/${ipfsPeerId.id}`);
+    await node.peerStore.addressBook.add(peerIdFromString(ipfsPeerId.id), [m]);
+    await node.dial(m);
+  }
+
+  return [node, dht];
+}
