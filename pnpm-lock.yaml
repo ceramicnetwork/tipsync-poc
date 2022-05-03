@@ -12,6 +12,7 @@ specifiers:
   '@libp2p/kad-dht': ^1.0.7
   '@libp2p/mplex': ^1.0.3
   '@libp2p/peer-id': ^1.1.10
+  '@libp2p/record': ^1.0.4
   '@libp2p/tcp': ^1.0.8
   '@libp2p/webrtc-star': ^1.0.7
   '@libp2p/websockets': ^1.0.6
@@ -37,6 +38,7 @@ specifiers:
   multiformats: ^9.6.4
   node-fetch: ^3.2.3
   prettier: ^2.6.2
+  protons-runtime: ^1.0.3
   typescript: ^4.6.3
   undici: ^5.0.0
 
@@ -49,6 +51,7 @@ dependencies:
   '@libp2p/kad-dht': 1.0.7_undici@5.0.0
   '@libp2p/mplex': 1.0.3_undici@5.0.0
   '@libp2p/peer-id': 1.1.10_undici@5.0.0
+  '@libp2p/record': 1.0.4_undici@5.0.0
   '@libp2p/tcp': 1.0.8_e91dc159bddbd7de88db848294fd8f09
   '@libp2p/webrtc-star': 1.0.7_e91dc159bddbd7de88db848294fd8f09
   '@libp2p/websockets': 1.0.6_e91dc159bddbd7de88db848294fd8f09
@@ -70,6 +73,7 @@ dependencies:
   multiaddr: 10.0.1_node-fetch@3.2.3
   multiformats: 9.6.4
   node-fetch: 3.2.3
+  protons-runtime: 1.0.3
   undici: 5.0.0
 
 devDependencies:

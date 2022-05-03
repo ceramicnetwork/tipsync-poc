@@ -3,12 +3,13 @@ import { streamIdToCid } from "./stream-id-to-cid.js";
 import type { Libp2p } from "libp2p";
 import type { IPFS } from "ipfs-core-types";
 import { asMfMultiaddr } from "./as-mf-multiaddr.js";
-import { EventTypes } from "./query-event.js";
 import { peerIdFromString } from "@libp2p/peer-id";
 import type { CID } from "multiformats/cid";
 import type { Multiaddr } from "multiaddr";
+import { Multiaddr as MFMultiaddr } from "@multiformats/multiaddr";
 import type { PeerId } from "@libp2p/interfaces/peer-id";
 import all from "it-all";
+import { EventTypes } from "./query-event.js";
 
 export interface PeerData {
   id: PeerId;
@@ -17,7 +18,7 @@ export interface PeerData {
 
 export async function connectPeers(
   node: Libp2p,
-  peersStream: AsyncIterable<PeerData>
+  peersStream: AsyncIterable<PeerData> | Iterable<PeerData>
 ) {
   for await (let peer of peersStream) {
     try {
@@ -32,13 +33,45 @@ export async function connectPeers(
   }
 }
 
-export async function* closestPeers(ipfs: IPFS, cid: CID): AsyncIterable<PeerData> {
+export async function* closestPeers(
+  ipfs: IPFS,
+  cid: CID
+): AsyncIterable<PeerData> {
   for await (let event of ipfs.dht.query(cid)) {
     if (event.type === EventTypes.FINAL_PEER) {
       yield {
         id: peerIdFromString(event.peer.id),
         multiaddrs: event.peer.multiaddrs,
       };
+    }
+  }
+}
+
+export async function* closestPeerIds(
+  ipfs: IPFS,
+  cid: CID
+): AsyncIterable<PeerId> {
+  // const peerDatae = new Map<string, PeerData>();
+  for await (let event of ipfs.dht.query(cid)) {
+    // if (event.type === EventTypes.PEER_RESPONSE) {
+    //   event.providers.forEach((pd) => {
+    //     const found = peerDatae.get(pd.id);
+    //     if (found) {
+    //       found.multiaddrs.push(...pd.multiaddrs);
+    //     } else {
+    //       peerDatae.set(pd.id, {
+    //         id: peerIdFromString(pd.id),
+    //         multiaddrs: pd.multiaddrs,
+    //       });
+    //     }
+    //   });
+    // }
+    if (event.type === EventTypes.FINAL_PEER) {
+      yield peerIdFromString(event.peer.id);
+      // const found = peerDatae.get(event.peer.id);
+      // if (found) {
+      //   yield found;
+      // }
     }
   }
 }
