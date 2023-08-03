@@ -45,6 +45,6 @@
     "multiaddr": "^10.0.1",
     "multiformats": "^9.6.4",
     "node-fetch": "^3.2.3",
-    "undici": "^5.0.0"
+    "undici": "^5.19.1"
   }
 }
